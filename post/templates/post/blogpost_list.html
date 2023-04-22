@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>ajouter un article </title>
+{% endblock %}
+
+{% block content %}
+    {% for post in posts %}
+        <article>
+            <div class = "post-title">
+                <h2>{{ post.title }}</h2>
+                {% if request.user.is_authenticated %}
+                    <div>
+                        <a href="{% url 'post:edit' post.slug %}"> Editer</a>
+                        <a href="{% url 'post:delete' post.slug %}"> supprimer</a>
+
+                    </div>
+                {% endif %}
+            </div>
+            <h5 class="post-author">publier par <i>{{ post.author }}</i></h5>
+            <p class="post-excerpt">{{ post.content|safe|truncatewords:50 }}</p>
+            <form action="{% url 'post:post' post.slug %}">
+                <button  class="btn-submit "  >Lire l'article</button>
+            </form>
+
+        </article>
+    {% endfor %}
+
+{% endblock %}
